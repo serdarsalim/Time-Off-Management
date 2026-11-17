@@ -11,7 +11,7 @@ Leave management for small teams, especially teams that span more than one count
 - **Requests.** Pick a leave type and dates, take half days, add a note or a supporting document. The form shows your balance before and after the request.
 - **Approvals.** Each request goes to the right manager, along with its working-day count and balance impact. Managers can approve, decline or propose different dates.
 - **Team calendar.** A month view and a full-year view. Colleagues see who is out but not why. Private leave types and notes are visible only to the people who approve that person.
-- **Per-country rules.** Each country has its own leave year (calendar or employment anniversary), public holidays, working week, leave types, first-year rule and carryover limit. Ireland and Türkiye come as starters, and you can add any of 125 other countries, holidays included.
+- **Per-country rules.** Each country has its own leave year (calendar or employment anniversary), public holidays, working week, leave types, first-year rule and carryover limit. Ireland and Türkiye come as starters, and you can add any of 125 supported countries, holidays included.
 - **Balances that keep themselves.** Allowances are pro-rated for joiners, carryover runs at year end and public holidays are imported automatically.
 - **Late arrivals, manager notes, reports and a full audit trail.**
 - **Email and in-app notifications.** Email goes through Resend and is optional.
