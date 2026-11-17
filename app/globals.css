@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --border: #e5e5e5;
+  --muted: #737373;
+  /* Two secondary text tiers, not one. --muted-strong is for text you read
+     to navigate (sidebar items, tab labels); --muted is for annotations. */
+  --muted-strong: #4d4d4d;
+  --muted-bg: #f5f5f5;
+  /* Recessed surface the sidebar + content sit on */
+  --pane: #f1f1f3;
+  /* Primary action accent — Nudge blue, white text in both modes */
+  --accent: #3b82f6;
+  --accent-fg: #ffffff;
+  /* Soft tint of the accent for selected/active surfaces */
+  --accent-soft: #eff6ff;
+  /* Table tokens are literal hex, not brand mixes, so the table doesn't
+     inherit every accent decision by accident. Tune these three lines and
+     every table follows. Ported from Resepta (randevu/docs/design-language.md). */
+  --table-header-fg: #1c2b33;
+  --table-divider: #e4e6eb;
+  --row-hover-bg: #f5f6f7;
+  /* Cards are lifted, not outlined. The wide low-opacity layer matters: a
+     downward drop puts nothing at the top corners, so without it a card
+     meets the plane at a hard line. */
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 3px 10px rgba(0, 0, 0, 0.05);
+  /* The plane the cards float on — a faint corner-to-corner wash so white
+     cards read as paper on something rather than white on white. Resepta
+     runs --accent into --brand; this app owns one hue, so the wash runs the
+     same blue at two strengths. Percentages stay in single digits: past
+     that it stops being a plane and starts being a poster. */
+  --content-bg: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--accent) 7%, var(--pane)) 0%,
+    var(--pane) 48%,
+    color-mix(in srgb, var(--accent) 4%, var(--pane)) 100%
+  );
+  /* Scrollbar thumb — separate from --muted so the bar reads quieter than
+     text. */
+  --scrollbar-thumb: rgba(0, 0, 0, 0.18);
+}
+
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card: #171717;
+  --border: #262626;
+  --muted: #a3a3a3;
+  --muted-strong: #cccccc;
+  --muted-bg: #171717;
+  --pane: #0c0c0c;
+  --accent: #3b82f6;
+  --accent-fg: #ffffff;
+  --accent-soft: #172a45;
+  --table-header-fg: #ededed;
+  --table-divider: #2e2e2e;
+  --row-hover-bg: #202020;
+  /* A shadow is invisible on near-black, so the same job falls to a hairline
+     ring. Same property, so no call site has to know. */
+  --card-shadow: 0 0 0 1px var(--border);
+  /* Halved: the mix that reads as a tint on white reads as a colour cast on
+     near-black. */
+  --content-bg: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--accent) 4%, var(--pane)) 0%,
+    var(--pane) 48%,
+    color-mix(in srgb, var(--accent) 2%, var(--pane)) 100%
+  );
+  --scrollbar-thumb: rgba(255, 255, 255, 0.16);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-muted-bg: var(--muted-bg);
+  --color-pane: var(--pane);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  background: var(--pane);
+  color: var(--foreground);
+}
+
+/* Always reserve the scrollbar gutter so content never shifts when the page
+   scrollbar appears/disappears. */
+html {
+  scrollbar-gutter: stable;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* The table header carries no fill: weight plus one rule. Set on thead, not
+   per-th, so a header that wraps to two lines still draws one continuous
+   line. Deliberately unlayered so it beats per-table utility classes — after
+   changing it, sweep component thead overrides, which become dead code that
+   looks live. */
+thead {
+  color: var(--table-header-fg);
+  border-bottom: 1px solid var(--table-divider);
+}
+
+@layer components {
+  /* Paper on the plane: lifted by a shadow, never outlined. The radius and
+     the border go together — dropping the 1px line is what softens the
+     corners, so anything larger than 0.5rem here reads as a pill. Modals,
+     dialogs, dropdowns and menus are NOT cards: they sit over content rather
+     than on the plane, and there a hard border is what separates them from
+     what they cover — they keep border + shadow-lg. A .card wrapping a table
+     needs overflow-hidden or the table's square corners paint over these. */
+  .card {
+    background: var(--card);
+    border-radius: 0.5rem;
+    box-shadow: var(--card-shadow);
+  }
+}
+
+/* Recessed, faintly graded panel for the sidebar. Both modes; flips with
+   .dark. The surface contrast separates it from content, not a hard line. */
+.app-pane {
+  background: linear-gradient(180deg, #f8f8f9 0%, #f1f1f3 100%);
+}
+.dark .app-pane {
+  background: linear-gradient(180deg, #141414 0%, #0c0c0c 100%);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* The house scrollbar, measured off Vercel's dashboard. Two weights: 3px
+   resting inside a card, 6px for the page-level scroller (.page-scroll
+   add-on). Hover changes WIDTH ONLY — widening and darkening together is
+   what makes a rail land heavy. The visible rail is carved out of a wider
+   track by a transparent border (background-clip), which floats it off the
+   card edge and keeps the hit box at full track width. Hover sits on the
+   THUMB, not the element, so scrolling anywhere doesn't fatten the bar. */
+.thin-scroll {
+  /* Reserve the gutter so content doesn't shift when the scrollbar appears.
+     This is the app's real scroll container (<main>), so the fix lives here,
+     not on html. */
+  scrollbar-gutter: stable;
+}
+.thin-scroll::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  border: 3px solid transparent; /* 9 - 6 = a 3px visible rail */
+  background-clip: padding-box;
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover {
+  border-width: 1.5px; /* 6px */
+}
+/* Page-level scroller: one step heavier than an in-card rail. Overrides
+   widths ONLY; must sit below .thin-scroll — equal specificity, source order
+   wins. */
+.page-scroll::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.page-scroll::-webkit-scrollbar-thumb {
+  border-width: 3px; /* 6px rail */
+}
+.page-scroll::-webkit-scrollbar-thumb:hover {
+  border-width: 2px; /* 8px */
+}
+/* Declaring the standard properties switches the ::-webkit-scrollbar rules
+   OFF wholesale in Chrome, so only Firefox may see them. */
+@supports not selector(::-webkit-scrollbar) {
+  .thin-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 190 42" role="img" aria-labelledby="title">
+  <title id="title">Time Off</title>
+  <g transform="translate(2 2)">
+    <circle cx="19" cy="9" r="9" fill="#34d399" fill-opacity=".72"/>
+    <circle cx="29" cy="19" r="9" fill="#fbbf24" fill-opacity=".72"/>
+    <circle cx="19" cy="29" r="9" fill="#f472b6" fill-opacity=".72"/>
+    <circle cx="9" cy="19" r="9" fill="#60a5fa" fill-opacity=".72"/>
+    <circle cx="19" cy="19" r="5.5" fill="#ffffff"/>
+  </g>
+  <text x="50" y="27" fill="currentColor" font-family="Arial, sans-serif" font-size="21" font-weight="700">Time Off</text>
+</svg>

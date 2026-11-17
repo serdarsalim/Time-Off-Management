@@ -1,0 +1,24 @@
+diff --git a/node_modules/@convex-dev/auth/dist/nextjs/server/cookies.js b/node_modules/@convex-dev/auth/dist/nextjs/server/cookies.js
+index 637917f..cce60e4 100644
+--- a/node_modules/@convex-dev/auth/dist/nextjs/server/cookies.js
++++ b/node_modules/@convex-dev/auth/dist/nextjs/server/cookies.js
+@@ -20,9 +20,16 @@ export async function getResponseCookies(response, cookieConfig) {
+ function getCookieStore(requestHeaders, responseCookies, cookieConfig) {
+     const isLocalhost = utils.isLocalHost(requestHeaders.get("Host") ?? "");
+     const prefix = isLocalhost ? "" : "__Host-";
+-    const tokenName = prefix + "__convexAuthJWT";
+-    const refreshTokenName = prefix + "__convexAuthRefreshToken";
+-    const verifierName = prefix + "__convexAuthOAuthVerifier";
++    // Namespace cookie names per app so two Convex Auth apps sharing a host
++    // (e.g. localhost:3016 and localhost:3012, or the same openport tunnel) do
++    // not clobber each other's session cookies. Set CONVEX_AUTH_COOKIE_NS to a
++    // unique value per app; falls back to the upstream names when unset.
++    const ns = process.env.CONVEX_AUTH_COOKIE_NS
++        ? "_" + process.env.CONVEX_AUTH_COOKIE_NS
++        : "";
++    const tokenName = prefix + "__convexAuthJWT" + ns;
++    const refreshTokenName = prefix + "__convexAuthRefreshToken" + ns;
++    const verifierName = prefix + "__convexAuthOAuthVerifier" + ns;
+     function getValue(name) {
+         return responseCookies.get(name)?.value ?? null;
+     }

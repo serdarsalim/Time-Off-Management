@@ -1,0 +1,81 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Time Off",
+  "description": "Help center for Time Off.",
+  "seo": {
+    "indexing": "all",
+    "trailingSlash": false,
+    "metatags": {
+      "canonical": "https://time-off-help.autotakt.dev"
+    },
+    "organization": {
+      "name": "Autotakt",
+      "url": "https://autotakt.dev",
+      "logo": "https://time-off-help.autotakt.dev/logo/logo.svg"
+    }
+  },
+  "colors": {
+    "primary": "#3b82f6",
+    "light": "#60a5fa",
+    "dark": "#3b82f6"
+  },
+  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/logo.svg",
+    "dark": "/logo/logo.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Live demo",
+        "href": "https://time-off.autotakt.dev"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Open demo",
+      "href": "https://time-off.autotakt.dev"
+    }
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": ["index", "quickstart", "roles"]
+      },
+      {
+        "group": "For employees",
+        "pages": [
+          "employee/dashboard",
+          "employee/request-leave",
+          "employee/calendar",
+          "employee/late-arrivals"
+        ]
+      },
+      {
+        "group": "For approvers",
+        "pages": ["approver/approvals", "approver/reports"]
+      },
+      {
+        "group": "Administration",
+        "pages": [
+          "admin/people",
+          "admin/offices",
+          "admin/configuration",
+          "admin/roles",
+          "admin/activity"
+        ]
+      },
+      {
+        "group": "Help",
+        "pages": ["faq"]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://autotakt.dev/products"
+    }
+  }
+}
